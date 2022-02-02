@@ -36,11 +36,18 @@ export default {
     methods: {
         async getAnswer() {
             
-            this.answer = 'Pensando...'
+            try {
+                
+                this.answer = 'Pensando...'
             const { answer, image } = await fetch('https://yesno.wtf/api').then( r => r.json() )
 
             this.answer = answer === 'yes' ? 'Si!' : 'No!'
             this.img = image
+            } catch (error) {
+                console.log(error)
+                this.img = null
+                this.answer = 'Answer no se pudo cargar'
+            }
 
 
         }

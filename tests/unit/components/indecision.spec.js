@@ -46,7 +46,13 @@ describe('Indecision', () => {
         expect(wrapper.vm.answer).toBe('Si!')
     });
     
-    test('should run error on getAnswer', () => {
-        // TODO
+    test('should run error on getAnswer', async () => {
+        // force the error
+        fetch.mockImplementationOnce(() => Promise.reject('Error forced, ask the backend team?') )
+        await wrapper.vm.getAnswer()
+
+        const img = wrapper.find('img')
+        expect(img.exists()).toBeFalsy() // or null, is the same
+        expect(wrapper.vm.answer).toBe('Answer no se pudo cargar')
     });
 });
