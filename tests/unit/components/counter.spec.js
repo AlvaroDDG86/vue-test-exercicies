@@ -31,4 +31,21 @@ describe("Counter.vue", () => {
         })
         expect(wrapper.find('h2').text()).toBe('Prueba')
     });
+    test('should show 100 in the second paragraph', () => {
+        const wrapper = factory()
+
+        expect(wrapper.find('[data-testid="second-p"]').text()).toBe('100')
+    });
+
+    test('should increase the counter by 1 on increase button click', async () => {
+        const wrapper = factory()
+        await wrapper.find('[data-testid="btn-increase"').trigger('click')
+        expect(wrapper.find('[data-testid="second-p"]').text()).toBe('101')
+    });
+    
+    test('should decrease the counter by 1 on decrease button click', async () => {
+        const wrapper = factory()
+        await wrapper.find('[data-testid="btn-decrease"').trigger('click')
+        expect(wrapper.find('[data-testid="second-p"]').text()).toBe('99')
+    });
 });

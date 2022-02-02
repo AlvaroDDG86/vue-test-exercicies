@@ -5,6 +5,7 @@
     <div class="indecision-container">
 
         <input
+            data-testid="input"
             v-model="question"
             type="text"
             placeholder="Hazme una pregunta">
