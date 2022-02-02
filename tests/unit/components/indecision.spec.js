@@ -5,7 +5,13 @@ describe('Indecision', () => {
     let getAnswerSpy
 
     // Mock the fetch api, doesn't exist in node
-    global.fetch = jest.fn()
+    global.fetch = jest.fn( () => Promise.resolve({
+        json: () => Promise.resolve({
+            answer: "yes",
+            forced: false,
+            image: "https://yesno.wtf/assets/yes/2.gif"
+        })
+    }) )
 
     beforeEach(() => {
         wrapper = shallowMount(Indecision)
@@ -30,8 +36,14 @@ describe('Indecision', () => {
         expect(getAnswerSpy).toHaveBeenCalled()
     });
     
-    test('should run getAnswer', () => {
-        // TODO
+    test('should run getAnswer', async () => {
+        await wrapper.vm.getAnswer()
+        const img = wrapper.find('img')
+        expect(img.attributes().src).toBe('https://yesno.wtf/assets/yes/2.gif')
+        const answer = wrapper.find('h1')
+        console.log(answer)
+        // we cannot use find('h1') because isValidQuestion didn't change
+        expect(wrapper.vm.answer).toBe('Si!')
     });
     
     test('should run error on getAnswer', () => {
